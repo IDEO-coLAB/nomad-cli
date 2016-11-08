@@ -1,0 +1,47 @@
+{
+  "name": "nomad-cli",
+  "version": "0.0.1",
+  "description": "Command line tooling for Nomad",
+  "bin": {
+    "nom": "src/bin.js"
+  },
+  "main": "src/bin.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "3.5.0",
+    "debug": "2.3.0",
+    "execa": "0.5.0",
+    "ramda": "0.22.1",
+    "read-pkg-up": "2.0.0",
+    "update-notifier": "1.0.2",
+    "yargs": "6.3.0"
+  },
+  "devDependencies": {
+    "eslint": "3.9.1",
+    "eslint-config-airbnb-base": "8.0.0",
+    "eslint-plugin-import": "1.16.0"
+  },
+  "scripts": {
+    "start": "DEBUG='nomad-cli*' node src/bin.js",
+    "test": "mocha test/**/*.spec.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IDEO-coLAB/nomad-cli.git"
+  },
+  "keywords": [
+    "nomad",
+    "cli",
+    "nomad-cli",
+    "command"
+  ],
+  "author": "Gavin McDermott <gavinmcdermott@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IDEO-coLAB/nomad-cli/issues"
+  },
+  "homepage": "https://github.com/IDEO-coLAB/nomad-cli#readme"
+}
