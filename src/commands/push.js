@@ -9,7 +9,7 @@ const request = require('request');
 const { log } = require('../utils')
 
 const execTimeout = 60 * 1000 // 60 seconds
-const postUrl = 'http://nomad-builder-1.5b837c28.cont.dockerapp.io:8080/upload'
+const postUrl = 'http://nomad-builder-1.0ed57f2f.cont.dockerapp.io:8080/upload'
 // don't forget the endpoint /upload!!!
 
 module.exports = {
@@ -30,9 +30,10 @@ module.exports = {
     log(`PUSH`)
 
     const IPFS_PATH = process.env.IPFS_PATH || path.resolve(os.homedir(), '.ipfs')
-    log(`I'm using the IPFS repo at ${IPFS_PATH}`)
+    log.user(`I'm using the IPFS repo at ${IPFS_PATH}`)
     const SENSOR_PATH = process.cwd()
-    log(`I'm using the nomad code at ${SENSOR_PATH}`)
+    log.user(`I'm using the nomad code at ${SENSOR_PATH}`)
+    log.user(`I'm sending your code to ${postUrl}`)
 
     const TMP_DIR_PATH = `${os.tmpdir()}/nomad-cli`
     const TMP_SRC_PATH = `${TMP_DIR_PATH}/libs`
@@ -81,8 +82,6 @@ const post = (file, url) => {
  
   request.post({ url, formData }, function optionalCallback(err, httpResponse, body) {
     if (err) { return log('upload failed:', err) }
-    log(`nom Nom NOM. Nomad code pushed`)
+    log.user(`nom Nom NOM. Nomad code pushed`)
   })
 }
-
-module.exports.handler()
