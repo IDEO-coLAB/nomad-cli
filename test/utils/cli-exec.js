@@ -23,7 +23,7 @@ module.exports = (opts) => {
 
   const config = Object.assign({}, {
     env,
-    stipEof: true,
+    stripEof: true,
     timeout: execTimeout,
   }, opts)
 

@@ -13,8 +13,11 @@
     "chai": "3.5.0",
     "debug": "2.3.0",
     "execa": "0.5.0",
+    "fs-extra": "1.0.0",
     "ramda": "0.22.1",
     "read-pkg-up": "2.0.0",
+    "request": "2.78.0",
+    "tar-fs": "1.14.0",
     "update-notifier": "1.0.2",
     "yargs": "6.3.0"
   },

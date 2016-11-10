@@ -14,7 +14,7 @@ Command line tooling for Nomad.
 
 ### npm
 
-This project (`nomad-cli`) is available through [npm](https://www.npmjs.com/). 
+This project is available through [npm](https://www.npmjs.com/). 
 
 ### Through command line tool
 
@@ -28,7 +28,7 @@ The CLI is available by using the command `nom` in your terminal.
 
 ## CLI
 
-The `nomad-cli` CLI (_only available when `nomad-cli` is installed globably_), follows the interface defined below. If you have questions, you can always use the `help` command for help menus.
+The CLI, __available only when installed globably__, follows the interface defined below. If you have questions, you can always use the `help` command for help menus.
 
 ```
 # First install nomad-cli globally
