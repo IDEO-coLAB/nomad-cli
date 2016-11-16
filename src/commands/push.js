@@ -1,4 +1,3 @@
-const execa = require('execa')
 const fs = require('fs-extra')
 const tar = require('tar-fs')
 const os = require('os')
@@ -9,7 +8,7 @@ const request = require('request');
 const { log } = require('../utils')
 
 const execTimeout = 60 * 1000 // 60 seconds
-const postUrl = 'http://nomad-builder-1.0ed57f2f.cont.dockerapp.io:8080/upload'
+const pushUrl = 'http://nomad-builder-1.0ed57f2f.cont.dockerapp.io:8080/upload'
 // don't forget the endpoint /upload!!!
 
 module.exports = {
@@ -26,14 +25,11 @@ module.exports = {
   // },
 
   handler() {
-  	debugger
-    log(`PUSH`)
-
     const IPFS_PATH = process.env.IPFS_PATH || path.resolve(os.homedir(), '.ipfs')
     log.user(`I'm using the IPFS repo at ${IPFS_PATH}`)
     const SENSOR_PATH = process.cwd()
     log.user(`I'm using the nomad code at ${SENSOR_PATH}`)
-    log.user(`I'm sending your code to ${postUrl}`)
+    log.user(`I'm sending your code to ${pushUrl}`)
 
     const TMP_DIR_PATH = `${os.tmpdir()}/nomad-cli`
     const TMP_SRC_PATH = `${TMP_DIR_PATH}/libs`
@@ -68,7 +64,7 @@ module.exports = {
     .on('finish', () => {
     	const bundlePath = `${TMP_BUNDLE_PATH}/bundle.tar`
     	log(`The tarball is here: ${bundlePath}`)
-      post(bundlePath, postUrl)
+      post(bundlePath, pushUrl)
     })
   },
 }
