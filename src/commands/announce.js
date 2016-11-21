@@ -7,9 +7,13 @@ const { log, getPeerId, getNodeDetails, getConfig, writeConfig, getConfigPath } 
 const isNilOrEmpty = x => { return R.isNil(x) || R.isEmpty(x) }
 
 const config = getConfig()
-debugger
 const announceUrl = config.announceUrl
 const configPath = getConfigPath()
+if (R.isNil(announceUrl)) {
+  log.user(`Please add an announce url to ${configPath}`)
+  log.user('{announceUrl: ANNOUNCE_URL}')
+  process.exit(1)
+}
 
 module.exports = {
   command: 'announce',
@@ -60,6 +64,7 @@ module.exports = {
 const announce = (name, description, peerID) => {
   var body = { name, description, peerID }
   request.post({ url: announceUrl, json: true, body }, function optionalCallback(err, httpResponse, body) {
+    debugger
     if (err) { return log('announce failed:', err) }
     log.user(`Announced to adlib`)
     log.user(`🎙  ${name}`)
