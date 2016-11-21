@@ -16,5 +16,6 @@ yargs
   .usage('nom COMMAND [OPTIONS]')
   .commandDir('commands')
   .help()
+  .demand(1)
   .strict()
   .argv

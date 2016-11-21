@@ -13,7 +13,7 @@ const pushUrl = 'http://nomad-builder-1.0ed57f2f.cont.dockerapp.io:8080/upload'
 
 module.exports = {
   command: 'push',
-  describe: 'Push a sensor bundle to a destination',
+  describe: 'Push Nomad node code to be hosted remotely',
 
   // builder: {
   //   bundle: {

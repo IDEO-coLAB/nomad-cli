@@ -1,19 +1,22 @@
 const R = require('ramda')
 const request = require('request')
 const path = require('path')
+const os = require('os')
 
-const { log, getPeerId, getNodeDetails } = require('../utils')
-
-const announceUrl = 'http://adlib-server.fc57e47a.svc.dockerapp.io:9000/announce'
-// don't forget the endpoint /announce!!!
-
+const { log, getPeerId, getNodeDetails, getConfig, writeConfig, getConfigPath } = require('../utils')
 const isNilOrEmpty = x => { return R.isNil(x) || R.isEmpty(x) }
+
+const config = getConfig()
+debugger
+const announceUrl = config.announceUrl
+const configPath = getConfigPath()
 
 module.exports = {
   command: 'announce',
   describe: 'Announce a new node to adlib',
 
   handler() {
+    debugger
     const IPFS_PATH = process.env.IPFS_PATH || path.resolve(os.homedir(), '.ipfs')
     log.user(`I'm using the IPFS repo at ${IPFS_PATH} to get the node ID`)
     const SENSOR_PATH = process.cwd()
@@ -48,23 +51,19 @@ module.exports = {
       process.exit(1)
     }
 
-    log.user(`I'm announcing to ${announceUrl}`)
+    log.user(`I'm announcing to ${announceUrl}, you can change this by editing ${configPath}`)
 
     announce(name, description, peerID)
   }
 }
 
-
-
 const announce = (name, description, peerID) => {
   var body = { name, description, peerID }
   request.post({ url: announceUrl, json: true, body }, function optionalCallback(err, httpResponse, body) {
     if (err) { return log('announce failed:', err) }
-    log.user(`\n\n🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠`)
-    log.user(`nom Nom NOM. Announced to adlib`)
-    log.user(`🎙  ${name} 🎙`)
-    log.user(`👉  ${description} 👈`)
-    log.user(`📡  ${peerID} 📡`)
-    log.user(`🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠`)
+    log.user(`Announced to adlib`)
+    log.user(`🎙  ${name}`)
+    log.user(`👉  ${description}`)
+    log.user(`📡  ${peerID}`)
   })
 }
