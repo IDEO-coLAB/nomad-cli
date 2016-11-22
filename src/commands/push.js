@@ -3,7 +3,7 @@ const tar = require('tar-fs')
 const os = require('os')
 const path = require('path')
 const R = require('ramda')
-const request = require('request');
+const request = require('request')
 
 const { log } = require('../utils')
 
@@ -53,14 +53,14 @@ module.exports = {
 
     // packing a directory
     tar.pack(TMP_SRC_PATH, {
-      ignore: function(name) {
+      ignore(name) {
         // ignore /.git and /node_modules files when packing
         const isNodeModule = R.test(/nomad-cli\/libs\/sensor\/node_modules/g, name)
         const isDotGit = R.test(/nomad-cli\/libs\/sensor\/.git/g, name)
         return isNodeModule || isDotGit
-      }
+      },
     })
-    .pipe(fs.createWriteStream(TMP_BUNDLE_PATH+'/bundle.tar'))
+    .pipe(fs.createWriteStream(`${TMP_BUNDLE_PATH}/bundle.tar`))
     .on('finish', () => {
     	const bundlePath = `${TMP_BUNDLE_PATH}/bundle.tar`
     	log(`The tarball is here: ${bundlePath}`)
@@ -72,12 +72,12 @@ module.exports = {
 // file is absolute path to tarball
 // https://github.com/request/request#forms
 const post = (file, url) => {
-  var formData = {
+  const formData = {
     upload: fs.createReadStream(file),
   }
- 
-  request.post({ url, formData }, function optionalCallback(err, httpResponse, body) {
+
+  request.post({ url, formData }, (err, httpResponse, body) => {
     if (err) { return log('upload failed:', err) }
-    log.user(`nom Nom NOM. Nomad code pushed`)
+    log.user('nom Nom NOM. Nomad code pushed')
   })
 }

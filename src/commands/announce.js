@@ -2,9 +2,9 @@ const R = require('ramda')
 const request = require('request')
 const path = require('path')
 const os = require('os')
+const { log, getPeerId, getNodeDetails, getConfig, getConfigPath } = require('../utils')
 
-const { log, getPeerId, getNodeDetails, getConfig, writeConfig, getConfigPath } = require('../utils')
-const isNilOrEmpty = x => { return R.isNil(x) || R.isEmpty(x) }
+const isNilOrEmpty = x => R.isNil(x) || R.isEmpty(x)
 
 const config = getConfig()
 const announceUrl = config.announceUrl
@@ -15,12 +15,23 @@ if (R.isNil(announceUrl)) {
   process.exit(1)
 }
 
+const announce = (name, description, peerID) => {
+  const body = { name, description, peerID }
+  request.post({ url: announceUrl, json: true, body }, (err) => {
+    if (err) { return log('announce failed:', err) }
+    log.user('Announced to adlib')
+    log.user(`🎙  ${name}`)
+    log.user(`👉  ${description}`)
+    log.user(`📡  ${peerID}`)
+    return null
+  })
+}
+
 module.exports = {
   command: 'announce',
   describe: 'Announce a new node to adlib',
 
   handler() {
-    debugger
     const IPFS_PATH = process.env.IPFS_PATH || path.resolve(os.homedir(), '.ipfs')
     log.user(`I'm using the IPFS repo at ${IPFS_PATH} to get the node ID`)
     const SENSOR_PATH = process.cwd()
@@ -46,29 +57,18 @@ module.exports = {
     }
 
     if (isNilOrEmpty(name)) {
-      log.user(`Your package.json needs a 'name' property`)
+      log.user('Your package.json needs a \'name\' property')
       process.exit(1)
     }
 
     if (isNilOrEmpty(description)) {
-      log.user(`Your package.json needs a 'description' property`)
+      log.user('Your package.json needs a \'description\' property')
       process.exit(1)
     }
 
     log.user(`I'm announcing to ${announceUrl}, you can change this by editing ${configPath}`)
 
     announce(name, description, peerID)
-  }
+  },
 }
 
-const announce = (name, description, peerID) => {
-  var body = { name, description, peerID }
-  request.post({ url: announceUrl, json: true, body }, function optionalCallback(err, httpResponse, body) {
-    debugger
-    if (err) { return log('announce failed:', err) }
-    log.user(`Announced to adlib`)
-    log.user(`🎙  ${name}`)
-    log.user(`👉  ${description}`)
-    log.user(`📡  ${peerID}`)
-  })
-}
